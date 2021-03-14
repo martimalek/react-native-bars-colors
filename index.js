@@ -1,7 +1,13 @@
-import { NativeModules } from 'react-native';
+import { NativeModules, Platform } from 'react-native';
 
-const { BarsColor } = NativeModules;
+const { BarsColors } = NativeModules;
+
+const changeNavBarColor = async (...args) => {
+    if (Platform.OS !== 'android') return;
+
+    return BarsColors.changeNavBarColor(...args);
+};
 
 export default {
-    changeNavBarColor: BarsColor.changeNavBarColor,
-}
+    changeNavBarColor,
+};

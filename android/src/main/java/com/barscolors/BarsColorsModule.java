@@ -24,7 +24,7 @@ import java.util.Map;
 import static com.facebook.react.bridge.UiThreadUtil.runOnUiThread;
 
 public class BarsColorsModule extends ReactContextBaseJavaModule {
-    public static final String REACT_CLASS = "BarsColor";
+    public static final String REACT_CLASS = "BarsColors";
     private static final String ERROR_NO_ACTIVITY = "E_NO_ACTIVITY";
     private static final String ERROR_NO_ACTIVITY_MESSAGE = "Tried to change the navigation bar while not attached to an Activity";
     private static final String ERROR_API_LEVEL = "API_LEVEl";
