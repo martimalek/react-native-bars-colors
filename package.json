@@ -1,7 +1,7 @@
 {
   "name": "@martimalek/react-native-bars-colors",
   "title": "React Native Bars Colors",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Small react-native library to control the color of both the status bar and the navigation bar in Android.",
   "main": "index.js",
   "files": [
