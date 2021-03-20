@@ -5,7 +5,6 @@ import android.animation.ValueAnimator;
 import android.graphics.Color;
 import android.os.Build;
 import android.app.Activity;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -27,13 +26,10 @@ public class BarsColorsModule extends ReactContextBaseJavaModule {
     public static final String REACT_CLASS = "BarsColors";
     private static final String ERROR_NO_ACTIVITY = "E_NO_ACTIVITY";
     private static final String ERROR_NO_ACTIVITY_MESSAGE = "Tried to change the navigation bar while not attached to an Activity";
-    private static final String ERROR_API_LEVEL = "API_LEVEl";
-    private static final String ERROR_API_LEVEL_MESSAGE = "Only Android Oreo and above is supported";
     private Window window = null;
 
     public BarsColorsModule(ReactApplicationContext context) {
         super(context);
-        Log.d("BarsColors", "BarsColorsModule constructor");
     }
 
     public void setNavigationBarTheme(Activity activity, Boolean light) {
@@ -62,7 +58,7 @@ public class BarsColorsModule extends ReactContextBaseJavaModule {
             try {
                 window = getCurrentActivity().getWindow();
                 runOnUiThread(runnable);
-            } catch (IllegalViewOperationException e) {
+            } catch (Exception e) {
                 promise.reject("error", e);
             }
         } else promise.reject(ERROR_NO_ACTIVITY, new Throwable(ERROR_NO_ACTIVITY_MESSAGE));
@@ -86,17 +82,22 @@ public class BarsColorsModule extends ReactContextBaseJavaModule {
             window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
             Integer navbarColorFrom = window.getNavigationBarColor();
-            Integer navbarColorTo = Color.parseColor(String.valueOf(navbarColor));
             Integer statusBarColorFrom = window.getStatusBarColor();
-            Integer statusBarColorTo = Color.parseColor(String.valueOf(statusBarColor));
+            try {
+                Integer navbarColorTo = Color.parseColor(HexFormatter.format(navbarColor));
+                Integer statusBarColorTo = Color.parseColor(HexFormatter.format(statusBarColor));
 
-            runColorAnimation(navbarColorFrom, navbarColorTo, (ValueAnimator animator) -> {
-                window.setNavigationBarColor((Integer) animator.getAnimatedValue());
-            });
+                runColorAnimation(navbarColorFrom, navbarColorTo, (ValueAnimator animator) -> {
+                    window.setNavigationBarColor((Integer) animator.getAnimatedValue());
+                });
 
-            runColorAnimation(statusBarColorFrom, statusBarColorTo, (ValueAnimator animator) -> {
-                window.setStatusBarColor((Integer) animator.getAnimatedValue());
-            });
+                runColorAnimation(statusBarColorFrom, statusBarColorTo, (ValueAnimator animator) -> {
+                    window.setStatusBarColor((Integer) animator.getAnimatedValue());
+                });
+            } catch (Exception e) {
+                promise.reject("error", e);
+            }
+
 
             setNavigationBarTheme(getCurrentActivity(), light);
             promise.resolve(true);
@@ -109,12 +110,23 @@ public class BarsColorsModule extends ReactContextBaseJavaModule {
         prepareWindowAndRun(() -> {
             window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-            Integer navbarColorFrom = window.getNavigationBarColor();
-            Integer navbarColorTo = Color.parseColor(String.valueOf(color));
 
-            runColorAnimation(navbarColorFrom, navbarColorTo, (ValueAnimator animator) -> {
-                window.setNavigationBarColor((Integer) animator.getAnimatedValue());
-            });
+            Integer statusBarColorFrom = window.getStatusBarColor();
+            Integer navbarColorFrom = window.getNavigationBarColor();
+
+            try {
+                Integer colorTo = Color.parseColor(HexFormatter.format(color));
+
+                runColorAnimation(navbarColorFrom, colorTo, (ValueAnimator animator) -> {
+                    window.setNavigationBarColor((Integer) animator.getAnimatedValue());
+                });
+
+                runColorAnimation(statusBarColorFrom, colorTo, (ValueAnimator animator) -> {
+                    window.setStatusBarColor((Integer) animator.getAnimatedValue());
+                });
+            } catch (Exception e) {
+                promise.reject("error", e);
+            }
 
             setNavigationBarTheme(getCurrentActivity(), light);
             promise.resolve(true);
