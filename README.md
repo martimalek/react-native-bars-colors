@@ -27,4 +27,4 @@ BarsColors.changeNavBarColor(navbarColor, statusBarColor, isLightTheme);
 
 This is a module made because of personal needs and for now only supports Android. PRs are welcome ;)
 
-The color format should be in HEX with 6 chars, not 3. Ex. #ABCDEF (This will be changed ASAP so that #AB and #ABC formats are supported)
+The color format should be in HEX with 6 chars, not 3. Ex. #RRGGBB (This will be changed ASAP so that #RGB format is supported)
