@@ -1,4 +1,4 @@
-package com.barscolors;
+package com.barscolors.src;
 
 public interface RunnableWithArg<T> {
     /**
