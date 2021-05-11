@@ -38,9 +38,6 @@ buildscript {
     }
 }
 
-apply plugin: 'com.android.library'
-apply plugin: 'maven'
-
 android {
     compileSdkVersion safeExtGet('compileSdkVersion', DEFAULT_COMPILE_SDK_VERSION)
     buildToolsVersion safeExtGet('buildToolsVersion', DEFAULT_BUILD_TOOLS_VERSION)
@@ -76,7 +73,8 @@ repositories {
 
 dependencies {
     //noinspection GradleDynamicVersion
-    implementation 'com.facebook.react:react-native:+'  // From node_modules
+    implementation 'com.facebook.react:react-native:+'
+    implementation 'junit:junit:4.12'// From node_modules
 }
 
 def configureReactNativePom(def pom) {

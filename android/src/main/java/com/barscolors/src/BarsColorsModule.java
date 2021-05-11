@@ -1,4 +1,4 @@
-package com.barscolors;
+package com.barscolors.src;
 
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
@@ -12,11 +12,11 @@ import android.view.WindowManager;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
+import com.barscolors.src.HexFormatter.HexFormatter;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
-import com.facebook.react.uimanager.IllegalViewOperationException;
 
 import java.util.Map;
 
@@ -32,11 +32,11 @@ public class BarsColorsModule extends ReactContextBaseJavaModule {
         super(context);
     }
 
-    public void setNavigationBarTheme(Activity activity, Boolean light) {
+    public void setNavigationBarTheme(Activity activity, Boolean isLight) {
         if (activity != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             Window window = activity.getWindow();
             int flags = window.getDecorView().getSystemUiVisibility();
-            if (light) flags |= View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
+            if (isLight) flags |= View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
             else flags &= ~View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
             window.getDecorView().setSystemUiVisibility(flags);
         }
